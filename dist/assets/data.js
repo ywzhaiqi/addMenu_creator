@@ -528,11 +528,7 @@ var Data = {
             'http://saucenao.com/search.php?db=999&url=',
             'https://encrypted.google.com/searchbyimage?image_url=',
             ];
-            var lastTab;
-            for(var n = 0; n < SEs.length; n++) {
-                lastTab = gBrowser.addTab(SEs[n] + url);
-            }
-            gBrowser.selectedTab = lastTab;
+            for(var n = 0; n < SEs.length; n++) {gBrowser.selectedTab = gBrowser.addTab(SEs[n] + url);}
         }
     },
     pOpenImgRar: {

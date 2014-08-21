@@ -1,0 +1,26 @@
+{
+  "name": "addMenu_creator",
+  "version": "0.0.1",
+  "description": "addMenu.uc.js 配置生成器, http://ywzhaiqi.github.io/addMenu\\_creator/",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ywzhaiqi/addMenu_creator.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/ywzhaiqi/addMenu_creator/issues"
+  },
+  "dependencies": {
+    "gulp-uglify": "~0.3.1",
+    "gulp": "~3.8.7",
+    "gulp-minify-css": "~0.3.7",
+    "gulp-if": "~1.2.4",
+    "gulp-useref": "~0.6.0",
+    "buildbranch": "0.0.1"
+  }
+}
