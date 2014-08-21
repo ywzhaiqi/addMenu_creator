@@ -1,16 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="description" content="" />
-<meta name="generator" content="gvim" />
-<meta name="author" content="Asins" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<title>Index</title>
-</head>
-<body>
-Hello world
-</body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>addMenu 脚本配置生成器</title>
+    <link rel="stylesheet" href="assets/index.css">
+</head>
+
+<body>
+    <div id="topics">
+        <div class="post">
+            <div class="postTitle">
+                <h1>addMenu 脚本配置生成器</h1>
+                <em>
+                    参考：
+                    <a href="http://www.cnblogs.com/ziyunfei/archive/2011/12/20/2293928.html">紫云飞</a>
+                    &nbsp;&nbsp;
+                    贡献者：defpt、oos
+                </em>
+            </div>
+            <div class="postBody">
+                <form id="ucjsMouseGestures">
+                    <label>菜单类型:
+                        <select id="menuStyle" onchange="AddMenu.changeMenuCommand()">
+                            <option title="page" value="page">页面右键</option>
+                            <option title="tab" value="tab">标签右键</option>
+                            <option title="tool" value="tool">工具菜单</option>
+                            <option title="app" value="app">app菜单</option>
+                            <option title="PageMenu" value="PageMenu">页面右键二级</option>
+                            <option title="TabMenu" value="TabMenu">标签右键二级</option>
+                            <option title="ToolMenu" value="ToolMenu">工具菜单二级</option>
+                            <option title="AppMenu" value="AppMenu">app菜单二级</option>
+                        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </label>
+                    <label>菜单命令:
+                        <select id="menuCommand" onchange="AddMenu.doNotGenerate()"></select>
+                    </label>&nbsp;&nbsp;&nbsp;
+                  <label>
+                        <input id="generateAddMenuScript" onclick="AddMenu.generateScript()" type="button" value="添加" />
+                    </label>&nbsp;
+                    <label>
+                        <input id="openChromeDir" onclick="AddMenu.openChrome()" type="button" value="打开chrome目录" />
+                    </label>&nbsp;&nbsp;&nbsp;
+                    <br>
+                    <b id="scriptLineNum" style="float:right">行数:0</b>
+                    <br>
+                    <textarea spellcheck="false" style="resize:none;background-color:#000000;color: #FFFFFF;width:100%;height:600px" id="AddMenuScript"></textarea>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/vendor.js"></script>
+
+    <script src="assets/data.js"></script>
+
+    <script src="assets/index.js"></script>
+</body>
+
+</html>
