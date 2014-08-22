@@ -4,3 +4,9 @@
 .postBody {
     margin-top: 20px;
 }
+.active {
+    background-color: pink;
+}
+#menuCommand {
+    max-width: 250px;
+}

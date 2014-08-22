@@ -27,6 +27,6 @@ gulp.task('html', function () {
         .pipe(gulp.dest('../addMenu_creator-gh-pages'));
 });
 
-gulp.task('publish', ['html'], function(done) {
-  buildBranch({ folder: 'dist' }, done);
-});
+// gulp.task('publish', ['html'], function(done) {
+//   buildBranch({ folder: 'dist' }, done);
+// });
