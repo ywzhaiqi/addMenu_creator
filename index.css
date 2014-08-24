@@ -10,3 +10,8 @@
 #menuCommand {
     max-width: 250px;
 }
+
+#messages {
+    font-size: 0.8em;
+    background-color: rgb(199, 208, 209);
+}

@@ -17,47 +17,54 @@
                 <em>
                     参考：
                     <a href="http://www.cnblogs.com/ziyunfei/archive/2011/12/20/2293928.html">紫云飞</a>
-                    &nbsp;&nbsp;
-                    贡献者：defpt、oos
-                    &nbsp;&nbsp;
-                    <a href="https://github.com/ywzhaiqi/addMenu_creator/tree/master">源代码</a>
+                    &nbsp;&nbsp; 贡献者：defpt、oos &nbsp;&nbsp;
+                    <a href="https://github.com/ywzhaiqi/addMenu_creator/tree/master">查看项目</a>
                     &nbsp;&nbsp;
                     <a href="https://github.com/ywzhaiqi/userChromeJS/tree/master/addmenuPlus">addmenuPlus.uc.js</a>
                 </em>
             </div>
             <div class="postBody">
                 <form id="ucjsAddmenu">
-                    <label>菜单类型: 
-                        <select id="menuStyle" rv-value="style" rv-on-change="selectedChanged">
-                            <option rv-each-item="model.styles" rv-title="item.title" rv-value="item.value">{ item.name }</option>
-                        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </label>
-                    <label>分类:
-                        <select id="menuType" rv-value="type" rv-on-change="selectedChanged">
-                            <option rv-each-item="model.types" rv-value="item.value" rv-title="item.value">{ item.name }</option>
-                        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </label>
-                    <label>菜单命令:
-                        <select id="menuCommand" rv-value="command">
-                            <option rv-each-item="model.commands" rv-title="item.title" rv-value="item.value" rv-class-active="item.active">{ item.name }</option>
-                        </select>
-                    </label>&nbsp;&nbsp;&nbsp;
-                  <label>
-                        <input rv-on-click="add" type="button" value="添加" />
-                  </label>
-                  <label>
-                        <input rv-on-click="del" type="button" value="删除" />
-                  </label>
-                  <label>
-                        <input rv-on-click="clean" type="button" value="清空" />
-                  </label>
-                    <label>
-                        <input id="openChromeDir" onclick="openChrome()" type="button" value="打开chrome目录" />
-                    </label>&nbsp;&nbsp;&nbsp;
-                    <br>
-                    <b style="float:right">行数:{ lineCount }</b>
-                    <br>
-                    <textarea rv-value="text" spellcheck="false" style="resize:none;background-color:#000000;color: #FFFFFF;width:100%;height:600px"></textarea>
+                    <div>
+                        <label>菜单类型:
+                            <select id="menuStyle" rv-value="style" rv-on-change="selectedChanged">
+                                <option rv-each-item="model.styles" rv-title="item.title" rv-value="item.value">{ item.name }</option>
+                            </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </label>
+                        <label>分类:
+                            <select id="menuType" rv-value="type" rv-on-change="selectedChanged">
+                                <option rv-each-item="model.types" rv-value="item.value" rv-title="item.value">{ item.name }</option>
+                            </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </label>
+                        <label>菜单命令:
+                            <select id="menuCommand" rv-value="command" rv-on-change="menuCommandChanged">
+                                <option rv-each-item="model.commands" rv-title="item.title" rv-value="item.value" rv-class-active="item.active">{ item.name }</option>
+                            </select>
+                        </label>&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input rv-on-click="add" type="button" value="添加" />
+                        </label>
+                        <label>
+                            <input rv-on-click="del" type="button" value="删除" />
+                        </label>
+                        <label>
+                            <input rv-on-click="clean" type="button" value="清空" />
+                        </label>
+                        <label>
+                            <input id="openChromeDir" onclick="openChrome()" type="button" value="打开chrome目录" />
+                        </label>
+                    </div>
+                    <div>
+                        <input type="checkbox" rv-checked="config.preview" rv-on-click="previewBtnClicked">预览模式</input>
+                    </div>
+                    <div id="messages">
+                        <p rv-each-message="messages" rv-html='message'></p>
+                    </div>
+                    <div>
+                        <b style="float:right">行数:{ lineCount }</b>
+                        <br>
+                        <textarea rv-value="text" spellcheck="false" style="resize:none;background-color:#000000;color: #FFFFFF;width:100%;height:600px"></textarea>
+                    </div>
                 </form>
             </div>
         </div>
