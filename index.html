@@ -10,7 +10,52 @@
 </head>
 
 <body>
-    <div id="topics">
+    <!-- <form data-bind="submit:addItem">
+        <label>菜单类型:
+            <select data-bind="options:allStyles, value: selectedStyle"></select>
+        </label>
+    </form> -->
+    <div>
+        <select data-bind='options: menuCategories, optionsText: "name", optionsCaption: "请选择...", value: category'></select>
+    </div>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th width="20%">命令</th>
+                <th width="25%" class="tooltiptext">说明</th>
+                <th width="10%">图片</th>
+                <th width="10%">快捷键</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:lines">
+            <tr>
+                <td>
+                    <select data-bind='options: menuCommands, optionsText: "label", optionsCaption: "请选择...", value: $parent.command'></select>
+                </td>
+                <td>
+                    <!-- <input data-bind='visible: tooltiptext, value: tooltiptext'></span> -->
+                    <input data-bind='value: command.tooltiptext'></span>
+                </td>
+                <td data-bind='with: command'>
+                    <img data-bind='visible: image, src: image' />
+                </td>
+                <td>
+                    <input data-bind='visible: command.accesskey, value: command.accesskey, valueUpdate: "afterkeydown"' />
+                </td>
+                 <td>
+                    <a href='#' data-bind='click: $parent.removeLine'>移除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p class='grandTotal'>
+        总计: <span data-bind='text: grandTotal()'> </span> 个
+    </p>
+    <button data-bind='click: addLine'>Add product</button>
+    <button data-bind='click: save'>Submit order</button>
+
+    <!-- <div id="topics">
         <div class="post">
             <div class="postTitle">
                 <h1>addMenu 脚本配置生成器</h1>
@@ -68,12 +113,13 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- build:js assets/vendor.js -->
     <script src="bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
     <script src="bower_components/js-beautify/js/lib/beautify.js" type="text/javascript"></script>
-    <script src="bower_components/rivets/dist/rivets.min.js"></script>
+    <!-- // <script src="bower_components/rivets/dist/rivets.min.js"></script> -->
+    <script src="bower_components/knockout/dist/knockout.js"></script>
     <!-- endbuild -->
 
     <!-- build:js assets/data.js -->
