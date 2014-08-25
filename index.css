@@ -8,10 +8,24 @@
     background-color: pink;
 }
 #menuCommand {
-    max-width: 250px;
+    width: 250px;
 }
 
 #messages {
     font-size: 0.8em;
-    background-color: rgb(199, 208, 209);
+    font-weight: bold;
+    /*background-color: rgb(199, 208, 209);*/
 }
+
+.hide {
+    display: none;
+}
+
+/*.left {
+    float: left;
+    width: 30%;
+}
+.right {
+    float: right;
+    width: 70%;
+}*/
