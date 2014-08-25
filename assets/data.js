@@ -4,10 +4,13 @@
  */
 var Data = {
 
-    aAddMenuRebuild_ucjs: {
-        label: "重新加载 addMenu 配置",
+    aAddMenuPlusClick_ucjs: {
+        label: "addMenuPlus",
+        tooltiptext: "左键：重载配置\n右键：编辑配置",
         accesskey: "r",
-        oncommand: "setTimeout(function(){ addMenu.rebuild(true); }, 10);"
+        image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAC0klEQVQ4jY3M70sTARzH8e8OZ8LccileaXjbpLbLzW535Fzt7lxuxjbnwNAS19QhlfQDQaQOSSVT+zGRQPuhPvBCRHoSFDmxgujns1L6d+I+PTBL64kPXo8+bz6UPn/+ZLarazqbTs/u1N2Zns10bOnu3L1l0+nZbCZzN93W5qbmWOxxayqFf/VcSqJ/OIH+4QR6Lif/21tTqZ+xSKSfGsNhPZlIYKdUSxz3VuJY/pHA8o8E7j+PI9US39U0x2KGKssaKaGQfiYaxbamxijOZSKY/xTD0mYCS5sJLHyOoaM7gqbGnV2jcSoY1ChQV6eHFQVhVUVYVaHKCq6MNkDfaMLDfBQP81E822jCtbEwVHlnJxsnJEkjSRD0YCCAbYoSwJ1lFfr3CK6Py7h6W8bitwgmnqtQG/529XV1huD1alTD87ooCBAFAYJPQKxVxMw7BY8/qGhulxA/K+HRexWz7xU0t4sQfL/b48cNz9GjGlVXV+u8xwPe44HH7UFW8+PJlxDGVurhl3gIfh6jSwE8/RrCxRERvHu7dRsuh0OjyspK3clxcHAc+BonhhZFzHyqR/aWD04HByfHIXPDi5mP9RhZllBT64SD4+CoqjIOsaxGpXa7fpBlwZaxOHmGw4NVEdNvJWgLXvRN8uib5HFzzovpNxJyayIaWhxgy1iw5eVGqd2ukdVi0UtsNpTYbOgYcGJqvRa5vIBc3o+ptS25vB+5vICp9Vp0Dblgt5dgv9VqWCwWjcxms15YWITyCgsG547gwZoX2dFq+GUWorLFL7O4oLlwP++FtuhGhbMYZvM+o6CgQCOGYXTGxMB/2obxVzzGXx6DL2SDiRgwpi0mYuCWijH2gsfkKo9g0g4TmQwi0oiIdCJCMHkAvRMutA8eRpGVARHtUljE4Gx/JXonXWhoKwMR/TmY/zfeo59ENEBElCKiF0S0SkSv92iViFaIKPALvt6gJtieLooAAAAASUVORK5CYII=",
+        oncommand: "setTimeout(function() {addMenu.rebuild(true);}, 10);",
+        onclick: "if (event.button == 2) {event.preventDefault(); addMenu.edit(addMenu.FILE);}",
     },
     // 复制
     aCopyUrl: {
@@ -35,9 +38,18 @@ var Data = {
         label: '复制当前页面标题（Html）',
         text: '<a href="%URL%">%TITLE%</a>',
     },
-    aCopyTitleUrlClick: {
+    aCopyTitleUrl_click: {
+        label: "复制标题+URL（左右两键）",
+        class: "copy",
+        tooltiptext: '左键标题+URL，右键标题',
+        onclick: function(e) {
+            if (e.button == 1) return;
+            addMenu.copy(addMenu.convertText(['%TITLE%\n%URL%', null, '%TITLE%'][e.button]));
+        },
+    },
+    aCopyTitleUrl_three_click: {
         label: "复制标题+地址（左中右三键）",
-        tooltiptext: "复制标题+URL\n左键 MD，中键普通，右键 BBS",
+        tooltiptext: "左键 MD，中键普通，右键 BBS\n包含链接、非链接 2 种情况",
         onclick: function(event) {
             var title = addMenu.convertText("%RLT_OR_UT%"),
                 url = addMenu.convertText("%RLINK_OR_URL%");
@@ -53,11 +65,31 @@ var Data = {
             var str = formats[event.button];
             addMenu.copy(str);
 
-            if (event.button === 1) {  // 中键竟然不会自动关闭
-                document.getElementById("contentAreaContextMenu").hidePopup();
+            if (event.button === 1) { // 中键竟然不会自动关闭
+                var node = event.target;
+                while (node.localName != 'menupopup') {
+                    node = node.parentNode;
+                }
+                node.hidePopup();
             }
         },
-        image:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABlSURBVDhP5Y5BCsAgEAP3i/1AP+D/zxUlwWBXXQueOhAQzQStcN3p2UmVFK80C7QGH1aEBniOBPqhgRnsQB8P8KzRe+i/+YHCO+htQNPjdaB/G4D6hoWekFzQohfUxngSg4pglgGUsQ0ZR4jGSwAAAABJRU5ErkJggg=="
+        image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABlSURBVDhP5Y5BCsAgEAP3i/1AP+D/zxUlwWBXXQueOhAQzQStcN3p2UmVFK80C7QGH1aEBniOBPqhgRnsQB8P8KzRe+i/+YHCO+htQNPjdaB/G4D6hoWekFzQohfUxngSg4pglgGUsQ0ZR4jGSwAAAABJRU5ErkJggg=="
+    },
+    aCopyFaviconUrl: {
+        label: '复制 Favicon 的 URL',
+        text: '%FAVICON%',
+    },
+    aCopyFaviconBase64: {
+        label: '复制 Favicon 的 Base64',
+        text: '%FAVICON_BASE64%',
+    },
+
+    // 标签
+    aCloseAllTabs: {
+        label: '关闭所有标签页',
+        oncommand: 'gBrowser.removeAllTabsBut(gBrowser.addTab("about:newtab"));',
+        insertAfter: 'context_closeOtherTabs',
+        accesskey: 'Q'
     },
     aCopyAllTabsTitleUrl: {
         label: '复制所有标签标题+地址',
@@ -102,14 +134,6 @@ var Data = {
                 return title;
             }
         },
-    },
-    aCopyFaviconUrl: {
-        label: '复制 Favicon 的 URL',
-        text: '%FAVICON%',
-    },
-    aCopyFaviconBase64: {
-        label: '复制 Favicon 的 Base64',
-        text: '%FAVICON_BASE64%',
     },
 
     // 粘贴
@@ -201,14 +225,6 @@ var Data = {
         image:""
     },
 
-    // 标签
-    aCloseAllTabs: {
-        label: '关闭所有标签页',
-        oncommand: 'gBrowser.removeAllTabsBut(gBrowser.addTab("about:newtab"));',
-        insertAfter: 'context_closeOtherTabs',
-        accesskey: 'Q'
-    },
-
     aGBK2UTF8: {
         label: "GBK <-> UTF-8",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC3SURBVDhPY6AKmGs//z85GKp9WBlwtP/Yf2RwY/PN/xeXX4Ly/v+/f/D+/9XRa7EbsDV/O1gRSNNCj8X/T886A+aDAEhuV+UeMBtkCFYD0DFMw/OLz+FiMACyAMSHakcYALL1/aMPUGW4wYbUTZgG7G8+CJYE2QhSAPMSspPRMVQ7xABYAILoZYErwAbBACjgQGIgw0AAqxdAgjAFIAAyABQOyAaB2CCXYXUBORiqfTAYQD5gYAAArhcq19H6/18AAAAASUVORK5CYII=",
@@ -230,7 +246,7 @@ var Data = {
         where: 'tab',
     },
     aGoogleTranslate: {
-        label: 'Google 翻译当前页面',
+        label: 'Google 翻译（当前页面）',
         insertAfter: 'context-selectall',
         image: 'moz-anno:favicon:http://translate.google.cn/favicon.ico',
         oncommand: function () {
@@ -386,59 +402,66 @@ var Data = {
 
     pGoogleImage_search_select: {label:"Google 搜索相关图片",url:"https://www.google.com/search?hl=zh-CN&site=imghp&tbm=isch&source=hp&q=%s",  where:'tab', image:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH9SURBVDhPzVE7i5pREP1+gYWFIMKCIPgHfKyFoCkEwdbKQny/xbeCoCK4i6KfqCyCCGIlbGN+wgrCohAUY20TXEgXWEg7uWfwC0tIlSoDhzv3zpkzjyv9v2axWD4ZjUbv3d2dV6/X8wkYDAavzWbzqlQq9Y36d3t4eHgtlUqUTCYpk8kQ/EQiwVgsFiSE7pnocrme3G63bDKZZKEsW61W2Ww2yyLxLZfL0Wg0+sFEYcFg8HO326VarUYibwWeVC6XCUin01QoFPgURCoWi7TZbOh8Pv8Mh8PPgUDgWVQ+Hg4Hmk6n3Al4UiqVIuBWRPJ4PKtYLEar1Youlws9Pj6yWD6fp1arxaKn04mazSbF43GSIpEIAbd8yW63y9Vqle+z2ewNsWg0ytWQ0O/3OSbuX/AuifYIQEuohBHq9TqTRMVvSBLtswg4jUaDY8J/RadQYvVQKMQkPGazWXI6nZH5fP5dScQ7Cg2HQ/L5fHW/3/+VBZQRlKUo/nK5pOv1SpPJhLeOsTqdDm23W9rv91SpVLjg7xHw30oXEMK/r9dr2u1272gZNh6PX47HIw0GA+6IdwcHQKIygiKCzfd6vXeHwyGLf5dF7AU/ofBYoN1uE4C2P3aBIBYIIcSwF8ThA+DwN2q1WrtOp7tXq9UMjUbD+OgrAO/P+226fzVJ+gV+cHLx+IUV6AAAAABJRU5ErkJggg=="},
     pGoogleTranslator_search_select: {label:"Google 翻译所选文本",url:"http://translate.google.com/#auto/zh-CN/%s", where:'tab', image:"moz-icon://http://translate.google.com/favicon.ico"},
-    pBaiduSearch_select: {label:"搜索所选文本",url:"http://www.baidu.com/s?wd=%s", where:'tab', image:"moz-icon://http://www.baidu.com/favicon.ico"},
+    pBaiduSearch_select: {label:"Baidu 搜索所选文本",url:"http://www.baidu.com/s?wd=%s", where:'tab', image:"moz-icon://http://www.baidu.com/favicon.ico"},
     pBaiduYunSearch_select: {label:"百度云所选文本",url:"https://www.google.com/search?q=site:pan.baidu.com%20%s", where:'tab', image:"moz-icon://http://pan.baidu.com/res/static/images/favicon.ico"},
     pBingSearch_search_select: {label:"Bing 搜索所选文本",url:"http://www.bing.com/search?q=%s", where:'tab', image:"moz-icon://http://www.bing.com/s/a/bing_p.ico"},
-    pSouku_search_select: {label:"搜库所选文本",url:"http://www.soku.com/search_video/q_%s", where:'tab', image:"moz-icon://http://www.soku.com/favicon.ico"},
+    pSouku_search_select: {label:"搜库搜索所选文本",url:"http://www.soku.com/search_video/q_%s", where:'tab', image:"moz-icon://http://www.soku.com/favicon.ico"},
     pYouTube_search_select: {label:"YouTube 所选文本",url:"https://www.youtube.com/results?search_query=%s", where:'tab', image:"moz-icon://https://s.ytimg.com/yts/img/favicon_32-vflWoMFGx.png"},
-    pYYet_search_select: {label:"人人影视所选文本",url:"http://www.yyets.com/search/index?keyword=%s&type=resource", where:'tab', image:"moz-icon://http://www.yyets.com/favicon.ico"},
-    pBooklink_search_select: {label:"BookLink 所选文本",keyword: 'bl', text:'%SEL%', where:'tab', image:"moz-icon://http://booklink.me/favicon.ico"},
-    pZDIC_search_select: {label:"汉典所选文本",url:"http://www.zdic.net/search?lb=1&q=%s", where:'tab', image:"moz-icon://http://www.zdic.net/favicon.ico"},
+    pYYet_search_select: {label:"人人影视搜索所选文本",url:"http://www.yyets.com/search/index?keyword=%s&type=resource", where:'tab', image:"moz-icon://http://www.yyets.com/favicon.ico"},
+    pBooklink_search_select: {label:"BookLink 搜索所选文本",keyword: 'bl', text:'%SEL%', where:'tab', image:"moz-icon://http://booklink.me/favicon.ico"},
+    pZDIC_search_select: {label:"汉典搜索所选文本",url:"http://www.zdic.net/search?lb=1&q=%s", where:'tab', image:"moz-icon://http://www.zdic.net/favicon.ico"},
     pWiKiEN_search_select: {label:"Wiki-EN 该词条",url:"https://en.wikipedia.org/wiki/%s", where:'tab', image:"moz-icon://http://bits.wikimedia.org/favicon/wikipedia.ico"},
     pWiKiCN_search_select: {label:"Wiki-CN 该词条",url:"https://zh.wikipedia.org/zh-cn/%s", where:'tab', image:"moz-icon://http://bits.wikimedia.org/favicon/wikipedia.ico"},
 
     // 外部程序
     aOpenDir_chrome_app: {
         label: "Chrome",
+        tooltiptext: "打开 chrome 文件夹",
         exec: "\\chrome",
+    },
+    aOpenFile_chromeCss_app: {
+        label: "userChrome.css",
+        tooltiptext: "打开 userChrome.css 文件",
+        exec: "\\chrome\\userChrome.css",
     },
     aOpenDir_gm_scripts_app: {
         label: "gm_scripts",
+        tooltiptext: "打开 gm_scripts 文件夹",
         exec: "\\gm_scripts",
     },
     aOpenDir_userChromeJS_app: {
         label: "userChromeJS content",
         exec: "\\extensions\\userChromeJS@mozdev.org\\content",
     },
-    pOpenWith_TW6_app: {
+    aOpenWith_TW6_app: {
         label: "在 TW6 中打开",
         accesskey: "T",
         text: "%RLINK_OR_URL%",
         exec: "D:\\Program Files\\TheWorld6\\Application\\TheWorld.exe",
     },
-    pOpenWith_IE_app: {
+    aOpenWith_IE_app: {
         label: "在 IE 中打开",
         accesskey: "I",
         text: "%RLINK_OR_URL%",
         exec: "C:\\Program Files\\Internet Explorer\\iexplore.exe",
     },
-    pOpenWith_chrome_app: {
+    aOpenWith_chrome_app: {
         label: "在 Chrome 中打开",
         accesskey: "C",
         text: '%RLINK_OR_URL%',
         exec: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
     },
-    pOpenWith_7chrome_app: {
+    aOpenWith_7chrome_app: {
         label: "在 7Chrome 中打开",
         text: "%RLINK_OR_URL%",
         exec: "C:\\Users\\y\\AppData\\Local\\7Star\\7Star\\Application\\7chrome.exe"
     },
-    pOpenWith_Maxthon_app: {
+    aOpenWith_Maxthon_app: {
         label: "在 Maxthon 中打开",
         text: "%RLINK_OR_URL%",
         exec : "D:\\Program Files\\Maxthon\\Bin\\Maxthon.exe",
     },
-    pOpenWith_Opera_app: {
+    aOpenWith_Opera_app: {
         label: "在 Opera 中打开",
         text : "%RLINK_OR_URL%",
         exec : "D:\\Program Files\\Opera\\opera.exe",
@@ -597,13 +620,7 @@ var Data = {
         }
     },
 
-    aAddMenuPlusClick_ucjs: {
-        label: "addMenuPlus",
-        tooltiptext: "左键：重载配置\n右键：编辑配置",
-        image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAC0klEQVQ4jY3M70sTARzH8e8OZ8LccileaXjbpLbLzW535Fzt7lxuxjbnwNAS19QhlfQDQaQOSSVT+zGRQPuhPvBCRHoSFDmxgujns1L6d+I+PTBL64kPXo8+bz6UPn/+ZLarazqbTs/u1N2Zns10bOnu3L1l0+nZbCZzN93W5qbmWOxxayqFf/VcSqJ/OIH+4QR6Lif/21tTqZ+xSKSfGsNhPZlIYKdUSxz3VuJY/pHA8o8E7j+PI9US39U0x2KGKssaKaGQfiYaxbamxijOZSKY/xTD0mYCS5sJLHyOoaM7gqbGnV2jcSoY1ChQV6eHFQVhVUVYVaHKCq6MNkDfaMLDfBQP81E822jCtbEwVHlnJxsnJEkjSRD0YCCAbYoSwJ1lFfr3CK6Py7h6W8bitwgmnqtQG/529XV1huD1alTD87ooCBAFAYJPQKxVxMw7BY8/qGhulxA/K+HRexWz7xU0t4sQfL/b48cNz9GjGlVXV+u8xwPe44HH7UFW8+PJlxDGVurhl3gIfh6jSwE8/RrCxRERvHu7dRsuh0OjyspK3clxcHAc+BonhhZFzHyqR/aWD04HByfHIXPDi5mP9RhZllBT64SD4+CoqjIOsaxGpXa7fpBlwZaxOHmGw4NVEdNvJWgLXvRN8uib5HFzzovpNxJyayIaWhxgy1iw5eVGqd2ukdVi0UtsNpTYbOgYcGJqvRa5vIBc3o+ptS25vB+5vICp9Vp0Dblgt5dgv9VqWCwWjcxms15YWITyCgsG547gwZoX2dFq+GUWorLFL7O4oLlwP++FtuhGhbMYZvM+o6CgQCOGYXTGxMB/2obxVzzGXx6DL2SDiRgwpi0mYuCWijH2gsfkKo9g0g4TmQwi0oiIdCJCMHkAvRMutA8eRpGVARHtUljE4Gx/JXonXWhoKwMR/TmY/zfeo59ENEBElCKiF0S0SkSv92iViFaIKPALvt6gJtieLooAAAAASUVORK5CYII=",
-        oncommand: "setTimeout(function() {addMenu.rebuild(true);}, 10);",
-        onclick: "if (event.button == 2) {event.preventDefault(); addMenu.edit(addMenu.FILE);}",
-    },
+    // uc 脚本的菜单
     aMouseGesturesClick_ucjs: {
         label: "鼠标手势",
         tooltiptext: "左键：重载配置\n右键：编辑配置",
