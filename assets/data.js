@@ -1069,22 +1069,24 @@ var Data = {
         }
     },
 
-    // firefox 自带
-    aLaunchScratchpad_firefox: {
-        label: "代码片段速记器",
-        accesskey: "d",
-        oncommand: "Scratchpad.openScratchpad();"   
-    },
-    aRestart_firefox: {
-        label: "重新启动浏览器",
-        // accesskey: "R",
-        oncommand: "Application.restart();"
+    // firefox 内置的功能
+    aBookmarkThisPage_firefox: {
+        label: '将此页加为书签',
+        oncommand: 'gContextMenu.bookmarkThisPage();'
     },
     aLaunchHomePage_firefox: {
         label: '打开主页',
         icon: 'home',
         oncommand: 'BrowserGoHome(event);',
         onclick:'checkForMiddleClick(document.getElementById("Browser:Home"), event);'
+    },
+    aLaunchScratchpad_firefox: {
+        label: "打开代码片段速记器",
+        oncommand: "Scratchpad.openScratchpad();"
+    },
+    aRestart_firefox: {
+        label: "重新启动浏览器",
+        oncommand: "Application.restart();"
     },
 
     // 扩展类
