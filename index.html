@@ -13,7 +13,9 @@
     <div id="topics">
         <div class="post">
             <div class="postTitle">
-                <h1>addMenu 脚本配置生成器</h1>
+                <h1>addMenu 脚本配置生成器
+                    <span id="version">  2014/9/15</span>
+                </h1>
                 <em>
                     参考：
                     <a href="http://www.cnblogs.com/ziyunfei/archive/2011/12/20/2293928.html">紫云飞</a>
@@ -59,10 +61,6 @@
                             <input type="checkbox" rv-checked="preview"/>
                             预览模式
                         </label>
-                        <label id="isMenuGroup" title="类似 firefox 32 右键的前进后退图标菜单，需要 ff31+">
-                            <input type="checkbox" rv-checked="isMenuGroup" />
-                            单图标行
-                        </label>
                     </div>
                     <div id="messages">
                         <p rv-each-message="messages" rv-html='message'></p>
@@ -94,7 +92,7 @@
     <script src="bower_components/lodash/dist/lodash.js" type="text/javascript"></script>
     <script src="bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
     <script src="bower_components/js-beautify/js/lib/beautify.js" type="text/javascript"></script>
-    <script src="bower_components/rivets/dist/rivets.min.js"></script>
+    <script src="bower_components/rivets/dist/rivets.js"></script>
     <!-- endbuild -->
 
     <!-- build:js assets/data.js -->

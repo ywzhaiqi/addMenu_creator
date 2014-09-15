@@ -21,6 +21,10 @@
     display: none;
 }
 
+#version {
+    font-size: 0.6em;
+}
+
 /*.left {
     float: left;
     width: 30%;
