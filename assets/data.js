@@ -542,6 +542,20 @@ var Data = {
         condition: 'link',
         url: 'javascript:function iprl5(l){if(l.startsWith("javascript:")){alert("该网址无效："+l);return;}var d=document,z=d.createElement("scr"+"ipt"),b=d.body;try{if(!b){throw (0)}if(!l){alert("请输入网址！");return}d.title="(Shortening...) "+d.title;z.setAttribute("src","http://www.ruanyifeng.com/webapp/url_shortener_plugin.php?longUrl="+encodeURIComponent(l));b.appendChild(z)}catch(e){alert("请等待网页加载完毕！")}}iprl5("%RLINK%");void (0);'
     },
+    aShortUrl_isgd: {
+		label: "生成短网址到剪切板",
+		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEPSURBVDhPrVPbDYMwDGSALtAFugDfiAD/TMAGbMAKrMAMXYItWKa9c2wrWNCvWjrFj+TsHKH6iw3DkLquOxSjpiv4G7BfIaX01m1VxaDv+w+h/gJM2LhZ/gqo10IA57jaACw/apkAzhQLBeY74Nov6V6OD8ZdV3blNYhIKnANyMRAiVYWleCkAXOat3gXAgQzA8KKBTiubAZqiy1nBKcxUSg7+YEIJ6AhsfAKTMLnIfmMwBoIpQFX18BMNTiNCIzwTUzqw7qseiwbhVRmfvdSC+rj19Em1iA/Ilo4JI9HD5ZvxB+V1jMBElGoRfNy/1A7gf9QOb4rS/a4+QZZi6Zpnj6SGoqcwP++COrRtu3jC8H0RM7z4TSuAAAAAElFTkSuQmCC",
+		oncommand: function() {
+			var url = "http://is.gd/api.php?longurl=" + encodeURIComponent(addMenu.convertText("%RLINK_OR_URL%"));
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", url, true);
+			xhr.onload = function() {
+				addMenu.copy(xhr.responseText);
+			}
+			xhr.send(null);
+		}
+    },
+
     aOpenInPrivateWin: {
         label:"在隐私窗口打开",
         oncommand: "openLinkIn(addMenu.convertText('%RLINK_OR_URL%'), 'window',{private:true});",
