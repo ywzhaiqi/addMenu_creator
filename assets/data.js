@@ -532,6 +532,7 @@ var Data = {
         }
     },
 
+    // 短网址
     aShortUrl_bookmark: {
         label: '短网址（当前页面）',
         condition: 'nolink',
@@ -543,7 +544,7 @@ var Data = {
         url: 'javascript:function iprl5(l){if(l.startsWith("javascript:")){alert("该网址无效："+l);return;}var d=document,z=d.createElement("scr"+"ipt"),b=d.body;try{if(!b){throw (0)}if(!l){alert("请输入网址！");return}d.title="(Shortening...) "+d.title;z.setAttribute("src","http://www.ruanyifeng.com/webapp/url_shortener_plugin.php?longUrl="+encodeURIComponent(l));b.appendChild(z)}catch(e){alert("请等待网页加载完毕！")}}iprl5("%RLINK%");void (0);'
     },
     aShortUrl_isgd: {
-		label: "生成短网址到剪切板",
+		label: "生成短网址到剪切板（is.gd）",
 		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEPSURBVDhPrVPbDYMwDGSALtAFugDfiAD/TMAGbMAKrMAMXYItWKa9c2wrWNCvWjrFj+TsHKH6iw3DkLquOxSjpiv4G7BfIaX01m1VxaDv+w+h/gJM2LhZ/gqo10IA57jaACw/apkAzhQLBeY74Nov6V6OD8ZdV3blNYhIKnANyMRAiVYWleCkAXOat3gXAgQzA8KKBTiubAZqiy1nBKcxUSg7+YEIJ6AhsfAKTMLnIfmMwBoIpQFX18BMNTiNCIzwTUzqw7qseiwbhVRmfvdSC+rj19Em1iA/Ilo4JI9HD5ZvxB+V1jMBElGoRfNy/1A7gf9QOb4rS/a4+QZZi6Zpnj6SGoqcwP++COrRtu3jC8H0RM7z4TSuAAAAAElFTkSuQmCC",
 		oncommand: function() {
 			var url = "http://is.gd/api.php?longurl=" + encodeURIComponent(addMenu.convertText("%RLINK_OR_URL%"));
@@ -553,6 +554,35 @@ var Data = {
 				addMenu.copy(xhr.responseText);
 			}
 			xhr.send(null);
+		}
+    },
+    aShortUrl_baidu: {
+		label: "生成短网址到剪切板（百度）",
+		oncommand: function() {
+			var url = addMenu.convertText("%RLINK_OR_URL%");
+			var form = new FormData();
+			form.append('url', url);
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "http://dwz.cn/create.php", true);
+			xhr.onload = function() {
+				var obj = JSON.parse(xhr.responseText);
+				addMenu.copy(obj.tinyurl);
+			}
+			xhr.send(form);
+		}
+    },
+    aShortUrl_google: {
+		label: "生成短网址到剪切板（谷歌）",
+		oncommand: function() {
+			var url = addMenu.convertText("%RLINK_OR_URL%");
+	        var xhr = new XMLHttpRequest();
+	        xhr.open("POST", "https://www.googleapis.com/urlshortener/v1/url", true);
+	        xhr.setRequestHeader("Content-Type", "application/json");
+	        xhr.onload = function() {
+                var obj = JSON.parse(xhr.responseText);
+                addMenu.copy(obj.id);
+	        }
+	        xhr.send(JSON.stringify({longUrl: url}));
 		}
     },
 
@@ -750,62 +780,7 @@ var Data = {
             var IDM_PATH = "D:\\Program Files\\Internet Download Manager\\IDMan.exe";
             var url = addMenu.convertText("%RLINK_OR_URL%");
 
-            flvxz(utf8_to_b64(url.replace('://', ':##')), youku());
-            // flvcd(url);
-            
-            function youku() {  // 得到当前的播放百分比
-                var PlayerInfo = content.wrappedJSObject.PlayerInfo;
-                if (!PlayerInfo) return;
-                var info = PlayerInfo();
-                var percent = info.time / info.alltime;
-
-                return percent;
-            }
-
-            function flvxz(url, percent) {
-                // http://flvxz.com/docs.php?doc=api
-                // 使用 /hd/2/ 的方式，有时候得到的是高清而不是超清
-                url = 'http://api.flvxz.com/url/' + url;
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
-                xhr.onload = function() {
-                    var doc = xhr.responseXML;
-                    
-                    var title = doc.querySelector('title').textContent;
-                    var nodes = Array.slice(doc.querySelectorAll('quality'));
-
-                    // 按质量从高到低排序
-                    var videoQualitys = {
-                        '1080P': -10,
-                        '超清': 9,
-                        '高清': 8,
-                        '手机标清': 5,
-                        'FLV标清': 4,
-                        '高清M3U8': 3,
-                        'MP4格式M3U8': 2,
-                        'FLV格式M3U8': 1,
-                    };
-                    var getQuality = function(node) videoQualitys[node.textContent] || 0;
-                    nodes.sort(function(a, b) getQuality(b) - getQuality(a) );
-
-                    var video = nodes[0].parentNode;
-                    var urls = [].map.call(video.querySelectorAll('furl'), function(node){
-                        return node.textContent;
-                    });
-
-                    // 获取后面未看的视频
-                    var watched = 0;
-                    if (percent && urls.length > 1) {
-                        watched = parseInt(urls.length * percent);
-                        urls = urls.slice(watched);
-                    }
-
-                    var ftype = video.querySelector('ftype').textContent;
-                    var start = watched + 1;
-                    runIDM(title, urls, false, '.' + ftype, start);
-                };
-                xhr.send(null);
-            }
+            flvcd(url);
 
             function flvcd(url) {
                 url = 'http://www.flvcd.com/parse.php?format=super&kw=' + encodeURIComponent();
@@ -879,10 +854,6 @@ var Data = {
                 };
 
                 run(start || 1);
-            }
-
-            function utf8_to_b64(str) {
-                return window.btoa(unescape(encodeURIComponent(str)));
             }
         },
     },
@@ -1412,9 +1383,9 @@ var Data = {
     aClearUndoCloseTabsList: {
         label: "清除复原分页列表",
         oncommand: function(event) {
-            var Setting = "browser.sessionstore.max_tabs_undo";
-            gPrefService.setIntPref(Setting, 0);
-            gPrefService.setIntPref(Setting, 50);
+            var setting = "browser.sessionstore.max_tabs_undo";
+            gPrefService.setIntPref(setting, 0);
+            gPrefService.setIntPref(setting, 50);
         }
     },  
 };
